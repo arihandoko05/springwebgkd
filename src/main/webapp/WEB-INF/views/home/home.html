@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<link rel="shortcut icon" href="../../../resources/images/favicon.png"
+	data-th-href="@{/resources/images/favicon.png}" />
+
+<title>Gemala Information System WEB Application</title>
+
+<!-- Bootstrap CSS -->
+<link type="text/css" rel="stylesheet"
+	href="../../resources/css/bootstrap.min.css" media="screen"
+	data-th-href="@{/resources/css/bootstrap.min.css}" />
+<!-- bootstrap theme -->
+<link type="text/css" rel="stylesheet"
+	href="../../resources/css/bootstrap-theme.css" media="screen"
+	data-th-href="@{/resources/css/bootstrap-theme.css}" />
+<!--external css-->
+<!-- font icon -->
+<link type="text/css" rel="stylesheet"
+	href="../../resources/css/elegant-icons-style.css"
+	data-th-href="@{/resources/css/elegant-icons-style.css}" />
+<link type="text/css" rel="stylesheet"
+	href="../../resources/css/font-awesome.min.css"
+	data-th-href="@{/resources/css/font-awesome.min.css}" />
+<!-- Custom styles -->
+<link type="text/css" rel="stylesheet"
+	href="../../resources/css/style.css" media="screen"
+	data-th-href="@{/resources/css/style.css}" />
+<link type="text/css" rel="stylesheet"
+	href="../../resources/css/style-responsive.css" media="screen"
+	data-th-href="@{/resources/css/style-responsive.css}" />
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
+<!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+      <script src="js/lte-ie7.js"></script>
+    <![endif]-->
+</head>
+
+<body ng-app="sampleApp">
+	<!-- container section start -->
+	<section id="container">
+		<div th:replace="fragments/header :: header">&nbsp;</div>
+		<div th:replace="fragments/sidebar :: sidebar">&nbsp;</div>
+
+		<!--main content start-->
+		<section id="main-content">
+			<section class="wrapper">
+			<div class="text-center">
+				<!-- /* Handle the flash message */-->
+				<th:block th:if="${message != null}">
+					<!-- /* The message code is returned from the @Controller */ -->
+					<div
+						th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
+				</th:block>
+				<p class="lead">Welcome to the Spring MVC Webgkd Supply Application!</p>
+			</div>
+			<div ng-view=""></div>
+				<div th:replace="fragments/footer :: footer">&copy; 2013 TheStatic Templates</div>
+			</section>
+		</section>
+		
+		<!--main content end-->
+	</section>
+	<!-- container section end -->
+	<!-- javascripts -->
+	<script src="../../resources/js/jquery.js" th:src="@{/resources/js/jquery.js}"></script>
+	<script src="../../resources/js/bootstrap.min.js"
+		th:src="@{/resources/js/bootstrap.min.js}"></script>
+
+	<!-- nicescroll -->
+	<script src="../../resources/js/jquery.scrollTo.min.js"
+		th:src="@{/resources/js/jquery.scrollTo.min.js}"></script>
+	<script src="../../resources/js/jquery.nicescroll.js"
+		th:src="@{/resources/js/jquery.nicescroll.js}"></script>
+	<!--custome script for all page-->
+	<script src="../../resources/js/scripts.js"
+		th:src="@{/resources/js/scripts.js}"></script>
+		
+	<!-- angular -->
+	<script src="../../resources/js/lib/angular/angular.min.js"
+		th:src="@{/resources/js/lib/angular/angular.min.js}"></script>
+	<script src="../../resources/js/lib/controllers/supplyController.js"
+		th:src="@{/resources/js/controllers/supplyController.js}"></script>
+		<script src="../../resources/js/lib/app.js"
+		th:src="@{/resources/js/lib/app.js}"></script>
+	<script src="../../resources/js/lib/services.js"
+		th:src="@{/resources/js/lib/services.js}"></script>
+		<script src="../../resources/js/lib/filters.js"
+		th:src="@{/resources/js/lib/filters.js}"></script>
+		<script src="../../resources/js/lib/directives.js"
+		th:src="@{/resources/js/lib/directives.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+-------------------------------------------------------------------------------
+Test set: org.gkd.springwebgkd.account.UserServiceTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec <<< FAILURE! - in org.gkd.springwebgkd.account.UserServiceTest
+shouldInitializeWithTwoDemoUsers(org.gkd.springwebgkd.account.UserServiceTest)  Time elapsed: 0 sec  <<< FAILURE!
+org.mockito.exceptions.verification.WantedButNotInvoked: 
+Wanted but not invoked:
+accountRepositoryMock.saveData(<any>);
+-> at org.gkd.springwebgkd.account.UserServiceTest.shouldInitializeWithTwoDemoUsers(UserServiceTest.java:40)
+Actually, there were zero interactions with this mock.
+
+	at org.gkd.springwebgkd.account.UserServiceTest.shouldInitializeWithTwoDemoUsers(UserServiceTest.java:40)
+
