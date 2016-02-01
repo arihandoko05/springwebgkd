@@ -220,5 +220,4 @@ public class WhsSjScan implements Serializable {
         return sb.toString(); 
     } 
 
-
 }
