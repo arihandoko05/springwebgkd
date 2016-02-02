@@ -135,6 +135,56 @@ var SupplyRetController = function($scope, $http, $window, $timeout) {
 
 	};
 	
+	// Function to Update ScanData
+	$scope.updateData = function() {
+		var actionUrl = "supplyret/upd?noReg="+$scope.tagLpb.noReg+"&kdGudang="+$scope.selectedWhs.kode;
+		var resp = $http({
+			method : 'POST',
+			url : actionUrl,
+			data : $scope.qtyRetur
+		});
+		resp.then(function(response) {
+			if (response != null) {
+				$scope.refreshDatalist();
+				console.info('Success post Taglpb');
+			}
+		}, function(errResponse) {
+			console.error('Error while Post TagLpb');
+		});
+
+	};
+	
+	// Function to Remove ScanData
+	$scope.removeData = function() {
+		var actionUrl = "supplyret/rmv";
+		var res = $http.get(actionUrl, {
+			params : {
+				'noReg' : $scope.tagLpb.noReg,
+				'kdGudang' : $scope.selectedWhs.kode
+			}
+		});
+
+		res.then(function(response) {
+			$scope.setMessage(response.data[0]);
+
+			if (response.data[1] == "success") {
+				$scope.successAlert = true;
+				$scope.refreshDatalist();
+				$scope.clearComponent1();
+				$timeout(function() {
+					$scope.successAlert = false;
+				}, 5000);
+			} else {
+				$timeout(function() {
+					$scope.failAlert = true;
+					$scope.failAlert = false;
+				}, 5000);
+			}
+		}, function(errResponse) {
+			console.error('Error while fetching Barcode');
+		});
+	};
+	
 	$scope.loadGudang();
 
 	$scope.setMessage = function(message) {
@@ -162,4 +212,16 @@ var SupplyRetController = function($scope, $http, $window, $timeout) {
 	// Start the timer
 	$timeout(tick, $scope.tickInterval);
 	/* End */
+	
+	$scope.getNamaNpk = function(npk) {
+		var actionUrl = "findnpk?npk="+npk;
+		var res3 = $http.get(actionUrl);
+		
+		res3.then(function(response) {
+			$scope.namaNpk = response.data;
+		}, function(errResponse) {
+			console.error('Error while fetching Gudang');
+		});
+		return $scope.namaNpk;
+	};
 };
