@@ -27,12 +27,14 @@ import javax.persistence.*;
 // Define named queries here
 @NamedQueries ( {
   @NamedQuery ( name="WebgkdUsersecEntity.countAll", query="SELECT COUNT(x) FROM WebgkdUsersecEntity x" ),
-  @NamedQuery(name = WebgkdUsersecEntity.FIND_BY_EMAIL, query = "select a from WebgkdUsersecEntity a where a.email = :email")
+  @NamedQuery(name = WebgkdUsersecEntity.FIND_BY_EMAIL, query = "select a from WebgkdUsersecEntity a where a.email = :email"),
+  @NamedQuery(name = WebgkdUsersecEntity.FIND_BY_NPK, query = "select a from WebgkdUsersecEntity a where a.npk = :npk")
 } )
 public class WebgkdUsersecEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     public static final String FIND_BY_EMAIL = "WebgkdUsersecEntity.findByEmail";
+    public static final String FIND_BY_NPK = "WebgkdUsersecEntity.findByNpk";
 
     //----------------------------------------------------------------------
     // ENTITY PRIMARY KEY ( BASED ON A SINGLE FIELD )

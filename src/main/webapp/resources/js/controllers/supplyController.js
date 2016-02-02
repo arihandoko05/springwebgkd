@@ -147,4 +147,16 @@ var SupplyController = function($scope, $http, $window, $timeout) {
 	// Start the timer
 	$timeout(tick, $scope.tickInterval);
 	/* End */
+	
+	$scope.getNamaNpk = function(npk) {
+		var actionUrl = "findnpk?npk="+npk;
+		var res3 = $http.get(actionUrl);
+		
+		res3.then(function(response) {
+			$scope.namaNpk = response.data;
+		}, function(errResponse) {
+			console.error('Error while fetching Gudang');
+		});
+		return $scope.namaNpk;
+	};
 };

@@ -65,6 +65,7 @@ public class SupplyReturController extends AbstractController {
 		filters.put("kdGudang =", kdGudang);
 		filters.put("tanggalTrx =", new Date());
 		filters.put("stInout =", "IN");
+		filters.put("noBpb", null);
 
         List<WhsSupplyScan> whsSupplyScans = whsSupplyScanService.search(filters, 10);
         if(whsSupplyScans == null){
@@ -85,6 +86,7 @@ public class SupplyReturController extends AbstractController {
     	filter.put("kdGudang =", kdGudang);
     	filter.put("tanggalTrx =", new Date());
     	filter.put("stInout =", "IN");
+    	filter.put("noBpb", null);
     	List<WhsSupplyScan> whsSupplyScans = whsSupplyScanService.search(filter, 0);
     	if(whsSupplyScans.isEmpty()){
     		tagLpb = tagLpbService.findById(noReg);
@@ -133,15 +135,70 @@ public class SupplyReturController extends AbstractController {
         
     }
 
-    @RequestMapping(value = "/sedup", method = RequestMethod.GET)
-    public @ResponseBody List<WhsSupplyScan> findDup(@RequestParam(value = "id", required = true) String id) {
-    	Map<String, Object> filter = new HashMap<>();
-    	filter.put("noBarcode =", id);
-    	filter.put("tanggalTrx =", new Date());
-    	filter.put("stInout =", "IN");
-    	List<WhsSupplyScan> whsSupplyScans = whsSupplyScanService.search(filter, 0);
-        return whsSupplyScans;
-    }
+    @RequestMapping(value = "/upd", method = RequestMethod.POST)
+	public @ResponseBody void updateData(@RequestBody BigDecimal qtyRetur,
+			@RequestParam(value = "noReg", required = true) String noReg,
+			@RequestParam(value = "kdGudang", required = true) String kdGudang) {
+    	WhsSupplyScan whsSupplyScan = new WhsSupplyScan();
+
+		Map<String, Object> filters = new HashMap<>();
+		filters.put("noBarcode =", noReg);
+		filters.put("kdGudang =", kdGudang);
+		filters.put("tanggalTrx =", new Date());
+    	filters.put("stInout =", "IN");
+
+		List<WhsSupplyScan> whsSupplyScans = whsSupplyScanService.search(filters, 0);
+		if (!whsSupplyScans.isEmpty()) {
+			whsSupplyScan = whsSupplyScans.get(0);
+		}
+
+		if (whsSupplyScan != null) {
+			whsSupplyScan.setQtyRetur(qtyRetur);
+			whsSupplyScan.setQtyBpb(whsSupplyScan.getQtySupply().subtract(qtyRetur));
+			whsSupplyScan.setModiby("web");
+			whsSupplyScan.setModidate(new Date());
+
+			whsSupplyScanService.update(whsSupplyScan);
+			log("STO/updateData-GET:  whsStoScan = " + whsSupplyScan.toString());
+			String message = "STO " + whsSupplyScan.getNoBarcode() + " was successfully Updated";
+			// modelAndView.addObject("message", message);
+		}
+
+	}
+
+	@RequestMapping(value = "/rmv", method = RequestMethod.GET)
+	public @ResponseBody String[] removeData(@RequestParam(value = "noReg", required = true) String noReg,
+			@RequestParam(value = "kdGudang", required = true) String kdGudang) {
+		String[] objReturn = new String[2];
+		try {
+			WhsSupplyScan whsSupplyScan = new WhsSupplyScan();
+
+			Map<String, Object> filters = new HashMap<>();
+			filters.put("noBarcode =", noReg);
+			filters.put("kdGudang =", kdGudang);
+			filters.put("tanggalTrx =", new Date());
+	    	filters.put("stInout =", "IN");
+
+	    	List<WhsSupplyScan> whsSupplyScans = whsSupplyScanService.search(filters, 0);
+			if (!whsSupplyScans.isEmpty()) {
+				whsSupplyScan = whsSupplyScans.get(0);
+			}
+
+			if (whsSupplyScan != null) {
+
+				whsSupplyScanService.delete(whsSupplyScan, whsSupplyScan.getKdTrx());
+				log("STO/updateData-GET:  whsStoScan = " + whsSupplyScan.toString());
+				objReturn[0] = "STO " + whsSupplyScan.getNoBarcode() + " was successfully Updated"; //message
+				objReturn[1] = "success"; //status
+				// modelAndView.addObject("message", message);
+			}
+		} catch (Exception e) {
+			objReturn[0] = "STO " + noReg + " was failed to Update"; //message
+			objReturn[1] = "fail"; //fail
+		}
+		return objReturn;
+
+	}
 
     public WhsSupplyScanService getWhsSupplyScanService() {
         return whsSupplyScanService;

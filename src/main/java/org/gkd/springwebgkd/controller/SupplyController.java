@@ -39,6 +39,11 @@ public class SupplyController extends AbstractController {
     @Resource
     private TagLpbService tagLpbService;
     
+    @RequestMapping(value = "/findnpk", method = RequestMethod.GET)
+	public @ResponseBody String findName(@RequestParam(value = "npk", required = true) String npk) {
+
+		return tagLpbService.getNameNpk(npk);
+	}
 
     @RequestMapping(value = {"","/","/list"}, method = RequestMethod.GET)
     public ModelAndView listOfSupply() {
@@ -64,6 +69,7 @@ public class SupplyController extends AbstractController {
 		filters.put("kdGudang =", kdGudang);
 		filters.put("tanggalTrx =", new Date());
 		filters.put("stInout =", "OUT");
+		filters.put("noBpb", null);
 
         List<WhsSupplyScan> whsSupplyScans = whsSupplyScanService.search(filters, 10);
         if(whsSupplyScans == null){
@@ -87,12 +93,19 @@ public class SupplyController extends AbstractController {
     	filter.put("kdGudang =", kdGudang);
     	filter.put("tanggalTrx =", new Date());
     	filter.put("stInout =", "OUT");
+    	filter.put("noBpb", null);
     	List<WhsSupplyScan> whsSupplyScans = whsSupplyScanService.search(filter, 0);
     	if(whsSupplyScans.isEmpty()){
     		tagLpb = tagLpbService.findById(noReg);
             if(tagLpb == null){
             	tagLpb = new TagLpb();
-            }
+            } else {
+    			Date dtperiod = tagLpbService.openPeriodeBpb();
+    			BigDecimal qtyScan = tagLpbService.getQtyMutasiTag(DTFORMAT_YYYY.format(dtperiod), DTFORMAT_MM.format(dtperiod), kdGudang, noReg);
+    			if (qtyScan != null){
+    				tagLpb.setQtyAkhir(qtyScan);
+    			}
+    		}
     	}
         
         return tagLpb;

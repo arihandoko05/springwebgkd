@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="../../../resources/images/favicon.png" data-th-href="@{/resources/images/favicon.png}"/>
 
 </head>
-<body>
+<body >
 	<header class="header dark-bg" th:fragment="header">
             <div th:if="${#authorization.expression('isAuthenticated()')}" class="toggle-nav">
                 <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="icon_menu"></i></div>
@@ -17,6 +17,7 @@
 
             <!--logo start-->
             <a href="#" class="logo" th:href="@{/}">Admin <span class="lite">GKD</span></a>
+            
             <!--logo end-->
 
             <div class="top-nav notification-row">                
@@ -35,8 +36,12 @@
                             <span class="profile-ava">
                                 <img alt="" src="./resources/images/chat-avatar2.jpg"/>
                             </span>
-                            -->
                             <span class="username" th:text="${#authentication.name}">a</span>
+                            <span class="username" th:attr="ng-init='getNamaNpk(\''+${#authentication.name}+'\');'"></span>
+                            -->
+                            
+                            <span class="username" th:attr="ng-init='getNamaNpk(\''+${#authentication.name}+'\');'">{{namaNpk}}</span>
+							
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">
@@ -65,7 +70,7 @@
                 </ul>
                 <!-- notificatoin dropdown end-->
             </div>
-      </header>      
+      </header>     
       <!--header end-->
 </body>
 </html>

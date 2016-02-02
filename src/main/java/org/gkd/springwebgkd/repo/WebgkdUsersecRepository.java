@@ -1,6 +1,9 @@
 package org.gkd.springwebgkd.repo;
 
 import javax.persistence.*;
+
+import java.util.Date;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Repository;
@@ -37,6 +40,25 @@ public class WebgkdUsersecRepository extends AbstractRepository<WebgkdUsersecEnt
 					.setParameter("email", email).getSingleResult();
 		} catch (PersistenceException e) {
 			return null;
+		}
+	}
+	
+	public WebgkdUsersecEntity findByNpk(String npk) {
+		try {
+			return entityManager.createNamedQuery(WebgkdUsersecEntity.FIND_BY_NPK, WebgkdUsersecEntity.class)
+					.setParameter("npk", npk).getSingleResult();
+		} catch (PersistenceException e) {
+			return null;
+		}
+	}
+	
+	public String getNameNpk(String npk) throws PersistenceException {
+		try {
+			String sql = "SELECT USRHRCORP.FNM_NPK('"+npk+"') FROM DUAL";
+			Query query = entityManager.createNativeQuery(sql);
+			return (String) query.getSingleResult();
+		} finally {
+			entityManager.close();
 		}
 	}
 	

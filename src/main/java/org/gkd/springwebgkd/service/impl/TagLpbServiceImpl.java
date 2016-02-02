@@ -119,4 +119,9 @@ public class TagLpbServiceImpl implements TagLpbService {
 		return tagLpbRepository.getQtySupply(noBarcode, kdSite);
 	}
 
+	@Override
+	public String getNameNpk(String npk) {
+		return tagLpbRepository.getNameNpk(npk);
+	}
+
 }

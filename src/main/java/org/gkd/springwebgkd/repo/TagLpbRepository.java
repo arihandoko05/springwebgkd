@@ -110,5 +110,15 @@ public class TagLpbRepository extends AbstractRepository<TagLpbEntity, String> {
 			entityManager.close();
 		}
 	} 
+	
+	public String getNameNpk(String npk) throws PersistenceException {
+		try {
+			String sql = "SELECT USRHRCORP.FNM_NPK('"+npk+"') FROM DUAL";
+			Query query = entityManager.createNativeQuery(sql);
+			return (String) query.getSingleResult();
+		} finally {
+			entityManager.close();
+		}
+	}
 
 }

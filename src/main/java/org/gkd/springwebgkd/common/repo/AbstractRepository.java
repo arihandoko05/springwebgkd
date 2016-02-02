@@ -4,18 +4,15 @@
  */
 package org.gkd.springwebgkd.common.repo;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -24,7 +21,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.springframework.stereotype.Repository;
 
 /**
  * Generic JPA service operations <br>
@@ -342,6 +338,8 @@ public abstract class AbstractRepository<T, PK extends java.io.Serializable> {
 					if (!operatorFound) {
 						predicates.add(criteriaBuilder.equal(from.get(expression), value));
 					}
+				} else {
+					predicates.add(criteriaBuilder.isNull(from.get(expression)));
 				}
 			}
 
@@ -363,6 +361,7 @@ public abstract class AbstractRepository<T, PK extends java.io.Serializable> {
 			}
 
 			TypedQuery<T> typedQuery = em.createQuery(criteriaQuery);
+			
 			if(maxResult > 0){
 				typedQuery.setMaxResults(maxResult);
 			}

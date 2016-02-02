@@ -65,4 +65,6 @@ public interface TagLpbService {
 	BigDecimal getQtyMutasiTag(String tahun, String bulan, String kdSite, String noBarcode);
 	
 	BigDecimal getQtySupply(String noBarcode, String kdSite);
+	
+	String getNameNpk(String npk);
 }
