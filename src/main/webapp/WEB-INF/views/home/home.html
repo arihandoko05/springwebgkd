@@ -38,7 +38,7 @@
     <![endif]-->
 </head>
 
-<body ng-app="sampleApp">
+<body ng-app="sampleApp" ng-controller="HomeController">
 	<!-- container section start -->
 	<section id="container">
 		<div th:replace="fragments/header :: header">&nbsp;</div>
@@ -81,16 +81,33 @@
 	<!-- angular -->
 	<script src="../../resources/js/lib/angular/angular.min.js"
 		th:src="@{/resources/js/lib/angular/angular.min.js}"></script>
-	<script src="../../resources/js/lib/controllers/supplyController.js"
-		th:src="@{/resources/js/controllers/supplyController.js}"></script>
-		<script src="../../resources/js/lib/app.js"
-		th:src="@{/resources/js/lib/app.js}"></script>
-	<script src="../../resources/js/lib/services.js"
-		th:src="@{/resources/js/lib/services.js}"></script>
-		<script src="../../resources/js/lib/filters.js"
-		th:src="@{/resources/js/lib/filters.js}"></script>
-		<script src="../../resources/js/lib/directives.js"
-		th:src="@{/resources/js/lib/directives.js}"></script>
+	<script type="text/javascript">
+	var sampleApp = angular.module('sampleApp', []).config(
+			[ '$httpProvider', function($httpProvider) {
+				// For Access-Control-Allow-Origin and Set-Cookie header
+				$httpProvider.defaults.withCredentials = true;
+			} ]);
+
+	sampleApp.config([ '$httpProvider', function($httpProvider) {
+		$httpProvider.defaults.xsrfCookieName = 'csrftoken';
+		$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+	} ]);
+
+	var HomeController = function($scope, $http) {
+		
+		$scope.getNamaNpk = function(npk) {
+			var actionUrl = "findnpk?npk="+npk;
+			var res3 = $http.get(actionUrl);
+			
+			res3.then(function(response) {
+				$scope.namaNpk = response.data;
+			}, function(errResponse) {
+				console.error('Error while fetching Gudang');
+			});
+			return $scope.namaNpk;
+		};
+	};
+	</script>
 
 </body>
 </html>
