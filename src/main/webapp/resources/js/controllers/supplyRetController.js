@@ -20,7 +20,7 @@ var SupplyRetController = function($scope, $http, $window, $timeout) {
 	$scope.successAlert = false;
 	$scope.failAlert = false;
 	$scope.qtyRetur = 0;
-
+	$scope.qtyAmbil = 0;
 
 	// Function to find Barang based on No Barcode
 	$scope.loadBar = function(noBarcode) {
@@ -33,6 +33,7 @@ var SupplyRetController = function($scope, $http, $window, $timeout) {
 		}).then(
 				function(response) {
 					$scope.tagLpb = response.data;
+					
 					if (response.data.noReg == null) {
 						console.info('No Data Found');
 						$scope.clearComponent();
@@ -53,6 +54,7 @@ var SupplyRetController = function($scope, $http, $window, $timeout) {
 								$scope.failAlert = false;
 							}, 5000);
 						} else {
+							$scope.getQtySupply();
 							$scope.successAlert = true;
 							$scope.saveData($scope.tagLpb);
 							$scope.clearComponent();
@@ -137,7 +139,7 @@ var SupplyRetController = function($scope, $http, $window, $timeout) {
 	
 	// Function to Update ScanData
 	$scope.updateData = function() {
-		var actionUrl = "supplyret/upd?noReg="+$scope.tagLpb.noReg+"&kdGudang="+$scope.selectedWhs.kode;
+		var actionUrl = "supplyret/upd?noReg="+$scope.tagLpb.noReg+"&kdGudang="+$scope.selectedWhs.kode+"&qtyAmbil="+$scope.qtyAmbil;
 		var resp = $http({
 			method : 'POST',
 			url : actionUrl,
@@ -179,6 +181,27 @@ var SupplyRetController = function($scope, $http, $window, $timeout) {
 					$scope.failAlert = true;
 					$scope.failAlert = false;
 				}, 5000);
+			}
+		}, function(errResponse) {
+			console.error('Error while fetching Barcode');
+		});
+	};
+	
+	$scope.getQtySupply = function() {
+		var actionUrl = "supplyret/getQtySupply";
+		var res = $http.get(actionUrl, {
+			params : {
+				'noReg' : $scope.tagLpb.noReg
+			}
+		});
+
+		res.then(function(response) {
+			$scope.qtyAmbil = response.data;
+
+			if (response.data[0] == 0) {
+				console.info('No Data Found');
+			} else {
+				console.info('Data Found');
 			}
 		}, function(errResponse) {
 			console.error('Error while fetching Barcode');

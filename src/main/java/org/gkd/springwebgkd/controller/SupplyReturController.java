@@ -104,7 +104,8 @@ public class SupplyReturController extends AbstractController {
     }
     
     @RequestMapping(value = "/pushe", method = RequestMethod.POST)
-    public @ResponseBody void saveData(@RequestBody TagLpb tagLpb, @RequestParam(value = "kdGudang", required = true) String kdGudang, @RequestParam(value = "qtyRetur") BigDecimal qtyRetur) {
+    public @ResponseBody void saveData(@RequestBody TagLpb tagLpb, @RequestParam(value = "kdGudang", required = true) String kdGudang,
+    		@RequestParam(value = "qtyRetur") BigDecimal qtyRetur) {
     	WhsSupplyScan whsSupplyScan = new WhsSupplyScan();
         if (tagLpb != null){
         	BigDecimal kdTrx = whsSupplyScanService.getMaxId();
@@ -138,7 +139,8 @@ public class SupplyReturController extends AbstractController {
     @RequestMapping(value = "/upd", method = RequestMethod.POST)
 	public @ResponseBody void updateData(@RequestBody BigDecimal qtyRetur,
 			@RequestParam(value = "noReg", required = true) String noReg,
-			@RequestParam(value = "kdGudang", required = true) String kdGudang) {
+			@RequestParam(value = "kdGudang", required = true) String kdGudang,
+			@RequestParam(value = "qtyAmbil", required = true) BigDecimal qtyAmbil) {
     	WhsSupplyScan whsSupplyScan = new WhsSupplyScan();
 
 		Map<String, Object> filters = new HashMap<>();
@@ -154,7 +156,7 @@ public class SupplyReturController extends AbstractController {
 
 		if (whsSupplyScan != null) {
 			whsSupplyScan.setQtyRetur(qtyRetur);
-			whsSupplyScan.setQtyBpb(whsSupplyScan.getQtySupply().subtract(qtyRetur));
+			whsSupplyScan.setQtyBpb(qtyAmbil.subtract(qtyRetur));
 			whsSupplyScan.setModiby("web");
 			whsSupplyScan.setModidate(new Date());
 
@@ -199,6 +201,18 @@ public class SupplyReturController extends AbstractController {
 		return objReturn;
 
 	}
+	
+	@RequestMapping(value = "/getQtySupply", method = RequestMethod.GET)
+    public @ResponseBody BigDecimal findBarcodePage(@RequestParam(value = "noReg", required = true) String noReg) {
+
+        log("Supply/findBarcode-GET:  ID to query = " + noReg);
+        Date dtperiod = tagLpbService.openPeriodeBpb();
+        String bulan = DTFORMAT_MM.format(dtperiod);
+        String tahun = DTFORMAT_YYYY.format(dtperiod);
+        
+        BigDecimal qtySupply = whsSupplyScanService.findQtySupply(noReg, bulan, tahun);
+        return qtySupply;
+    }
 
     public WhsSupplyScanService getWhsSupplyScanService() {
         return whsSupplyScanService;

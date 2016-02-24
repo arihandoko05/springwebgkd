@@ -159,4 +159,16 @@ var SupplyController = function($scope, $http, $window, $timeout) {
 		});
 		return $scope.namaNpk;
 	};
+	
+	$scope.getNamaPt = function (kdPt) {
+		var actionUrl = "findNmPt?kdpt="+kdPt;
+		var res2 =  $http.get(actionUrl);
+		
+		res2.then(function(response) {
+			$scope.namaPt = response.data;
+		}, function(errResponse) {
+			console.error('Error find Nama NPK');
+		});
+		return $scope.namaPt;
+	};
 };

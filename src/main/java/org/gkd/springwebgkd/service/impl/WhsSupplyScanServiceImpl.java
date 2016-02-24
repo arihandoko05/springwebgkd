@@ -127,4 +127,9 @@ public class WhsSupplyScanServiceImpl implements WhsSupplyScanService {
 		return beans;
 	}
 
+	@Override
+	public BigDecimal findQtySupply(String noBarcode, String bulan, String tahun) {
+		return whsSupplyScanRepository.findQtySupply(noBarcode, bulan, tahun);
+	}
+
 }

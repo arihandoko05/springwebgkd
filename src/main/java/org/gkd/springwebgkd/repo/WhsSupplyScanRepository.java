@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -95,5 +96,18 @@ public class WhsSupplyScanRepository extends AbstractRepository<WhsSupplyScanEnt
 		}
 	}
 	
+	public BigDecimal findQtySupply(String noBarcode, String bulan, String tahun) {
+		try {
+			String sql = "SELECT QTY_SUPPLY FROM(SELECT QTY_SUPPLY FROM WHS_SUPPLY_SCAN "
+					+ "WHERE BULAN = '"+bulan+"' AND TAHUN = '"+tahun+"' AND NO_BARCODE = '"+noBarcode+"' "
+					+ "AND ST_INOUT = 'OUT' ORDER BY KD_TRX DESC) WHERE ROWNUM = 1";
+			Query query = entityManager.createNativeQuery(sql);
+			return (BigDecimal) query.getSingleResult();
+		} catch(NoResultException e){
+			return BigDecimal.ZERO;
+		} finally {
+			entityManager.close();
+		}
+	}
 
 }

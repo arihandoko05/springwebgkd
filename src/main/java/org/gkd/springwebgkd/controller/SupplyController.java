@@ -127,7 +127,7 @@ public class SupplyController extends AbstractController {
             	whsSupplyScan.setTahun((new SimpleDateFormat("yyyy")).format(new Date()));
             	whsSupplyScan.setTanggalTrx(new Date());
             	whsSupplyScan.setKdGudang(kdGudang);
-            	whsSupplyScan.setCreateby("System");
+            	whsSupplyScan.setCreateby("web");
             	whsSupplyScan.setCreatedate(new Date());
             	
             	whsSupplyScanService.create(whsSupplyScan);
