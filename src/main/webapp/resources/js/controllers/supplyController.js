@@ -19,6 +19,7 @@ sampleApp.config([ '$httpProvider', function($httpProvider) {
 var SupplyController = function($scope, $http, $window, $timeout) {
 	$scope.successAlert = false;
 	$scope.failAlert = false;
+	$scope.qtySupply = 0;
 
 
 	// Function to find Barang based on No Barcode
@@ -42,11 +43,14 @@ var SupplyController = function($scope, $http, $window, $timeout) {
 							$scope.failAlert = false;
 						}, 5000);
 					} else {
+							$scope.qtySupply = $scope.tagLpb.qtyAkhir;
+							if($scope.qtySupply == 0){
+								$scope.qtySupply = $scope.tagLpb.qty;
+							}
 							$scope.successAlert = true;
 							$scope.saveData($scope.tagLpb);
 							$scope.clearComponent();
-							$scope.setMessage('No Barcode ' + noBarcode
-									+ ' success to Add into Table');
+							$scope.setMessage('No Barcode ' + noBarcode + ' success to Add into Table');
 							$timeout(function() {
 								$scope.successAlert = false;
 							}, 5000);

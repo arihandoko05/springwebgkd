@@ -119,8 +119,13 @@ public class SupplyController extends AbstractController {
         	if(kdTrx != null){
         		whsSupplyScan.setKdTrx(kdTrx);
         		whsSupplyScan.setNoBarcode(tagLpb.getNoReg());
-            	whsSupplyScan.setQtyBpb(tagLpb.getQtyAkhir());
-            	whsSupplyScan.setQtySupply(tagLpb.getQtyAkhir());
+            	
+            	BigDecimal qtySupply = tagLpb.getQtyAkhir();
+            	if(qtySupply.equals(BigDecimal.ZERO)){
+            		qtySupply = tagLpb.getQty();
+            	}
+            	whsSupplyScan.setQtyBpb(qtySupply);
+            	whsSupplyScan.setQtySupply(qtySupply);
             	whsSupplyScan.setQtyRetur(BigDecimal.ZERO);
             	whsSupplyScan.setStInout("OUT");
             	whsSupplyScan.setBulan((new SimpleDateFormat("MM")).format(new Date()));

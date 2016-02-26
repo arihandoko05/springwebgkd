@@ -90,14 +90,19 @@
 						<section class="panel">
 							<div class="panel-body">
 								<h1 style="margin-top: 0px; !important">Detail Info</h1>
-								<div class="bio-row-full">
+								<div class="bio-row">
 									<p>
 										<span>No barcode </span>: {{tagLpb.noReg }} 
 									</p>
 								</div>
+								<div class="bio-row">
+									<p>
+										<span>Tgl Registrasi </span>: {{ tagLpb.tglReg }}
+									</p>
+								</div>
 								<div class="bio-row-full">
 									<p>
-										<span>Kode Barang </span>: {{tagLpb.kodeBrg }}
+										<span>Kode Barang </span>: {{tagLpb.kodeBrg }} - {{ tagLpb.kelLap }}
 									</p>
 								</div>
 								<div class="bio-row-full">
@@ -117,28 +122,18 @@
 								</div>
 								<div class="bio-row">
 									<p>
-										<span>Kelompok</span>: {{ tagLpb.kelLap }}
+										<span>Qty Packing </span>: {{ tagLpb.qty }} pcs
 									</p>
 								</div>
 								<div class="bio-row">
 									<p>
-										<span>Site</span>: {{ tagLpb.kdSite }}
+										<span>Qty Stock </span>: {{ tagLpb.qtyAkhir }} pcs
 									</p>
 								</div>
 								<div class="bio-row">
 									<p>
-										<span>Qty per pack </span>: {{ tagLpb.qty }} pcs
-									</p>
-								</div>
-								<div class="bio-row">
-									<p>
-										<strong><span>Qty Supply </span></strong>: {{ tagLpb.qtyAkhir }}
+										<strong><span>Qty Supply </span></strong>: {{ qtySupply }}
 										pcs
-									</p>
-								</div>
-								<div class="bio-row">
-									<p>
-										<span>Tgl Registrasi </span>: {{ tagLpb.tglReg }}
 									</p>
 								</div>
 								<div class="bio-row">

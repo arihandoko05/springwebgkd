@@ -119,7 +119,7 @@ public class WhsSupplyScanServiceImpl implements WhsSupplyScanService {
 
 	@Override
 	public List<WhsSupplyScan> search(Map<String, Object> params, int maxResult) {
-		List<WhsSupplyScanEntity> entities = whsSupplyScanRepository.search(params, null,maxResult);
+		List<WhsSupplyScanEntity> entities = whsSupplyScanRepository.search(params, "tanggalTrx desc",maxResult);
 		List<WhsSupplyScan> beans = new ArrayList<WhsSupplyScan>();
 		for(WhsSupplyScanEntity entity : entities) {
 			beans.add(whsSupplyScanServiceMapper.mapWhsSupplyScanEntityToWhsSupplyScan(entity));
