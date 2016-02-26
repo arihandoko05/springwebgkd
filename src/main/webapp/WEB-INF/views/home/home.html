@@ -38,7 +38,7 @@
     <![endif]-->
 </head>
 
-<body ng-app="sampleApp" ng-controller="HomeController">
+<body ng-app="sampleApp" ng-controller="InfoController">
 	<!-- container section start -->
 	<section id="container">
 		<div th:replace="fragments/header :: header">&nbsp;</div>
@@ -56,6 +56,96 @@
 				</th:block>
 				<p class="lead">Welcome to the Spring MVC Webgkd Supply Application!</p>
 			</div>
+			<div class="row">
+					<div class="col-lg-12">
+						<section class="panel">
+							<header class="panel-heading"> Info Barcode Material Sheet </header>
+							<div class="panel-body">
+								<div class="col-lg-8">
+									<span class="label label-primary" style="font-size: 1.0em;"
+										data-th-text="${openPeriod}">OpenPeriod</span>
+								</div>
+								<div class="col-lg-4">
+									<div class="form-group">
+										<label class="col-sm-6 control-label"
+											style="text-align: right;">Lokasi Gudang</label>
+										<div class="col-lg-6">
+											<select class="form-control  input-sm col-md-9" id="whs"
+												ng-model="selectedWhs"
+												ng-options="var as var.namaGudang for var in whsList"
+												ng-change="refreshDatalist()"></select>
+										</div>
+									</div>
+								</div>
+								<div class="bio-graph-heading">
+									
+									<p>{{ clock | date:'medium'}}</p>
+									<label class="col-sm-2 control-label" for="txtKdBarcode">No
+										Barcode</label>
+									<form class="form-horizontal" role="form"
+										ng-submit="loadBar(noBarcode)">
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="txtKdBarcode"
+												ng-model="noBarcode" autofocus="autofocus"
+												placeholder="Scan HERE !!" />
+										</div>
+									</form>
+								</div>
+							</div>
+						</section>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-lg-12">
+						<section class="panel">
+							<div class="panel-body">
+								<h1 style="margin-top: 0px; !important">Detail Info</h1>
+								<div class="bio-row-full">
+									<p>
+										<span>No barcode </span>: {{tagLpb.noReg }}
+									</p>
+								</div>
+								<div class="bio-row-full">
+									<p>
+										<span>Kode Barang </span>: {{tagLpb.kodeBrg }}
+									</p>
+								</div>
+								<div class="bio-row-full">
+									<p>
+										<span>Nama Barang </span>: {{ tagLpb.nmBrg }}
+									</p>
+								</div>
+								<div class="bio-row">
+									<p>
+										<span>Model</span>: {{ tagLpb.model }}
+									</p>
+								</div>
+								<div class="bio-row">
+									<p>
+										<span>Group</span>: {{ tagLpb.nmGroup }}
+									</p>
+								</div>
+								<div class="bio-row">
+									<p>
+										<span>Kelompok</span>: {{ tagLpb.kelLap }}
+									</p>
+								</div>
+								<div class="bio-row">
+									<p>
+										<span>Qty per pack </span>: {{ tagLpb.qty }} pcs
+									</p>
+								</div>
+								<div class="bio-row">
+									<p>
+										<span>Tgl Registrasi </span>: {{ tagLpb.tglReg }}
+									</p>
+								</div>						
+								
+							</div>
+						</section>
+					</div>
+					</div>
 			<div ng-view=""></div>
 				<div th:replace="fragments/footer :: footer">&copy; 2013 TheStatic Templates</div>
 			</section>
@@ -79,35 +169,11 @@
 		th:src="@{/resources/js/scripts.js}"></script>
 		
 	<!-- angular -->
-	<script src="../../resources/js/lib/angular/angular.min.js"
-		th:src="@{/resources/js/lib/angular/angular.min.js}"></script>
-	<script type="text/javascript">
-	var sampleApp = angular.module('sampleApp', []).config(
-			[ '$httpProvider', function($httpProvider) {
-				// For Access-Control-Allow-Origin and Set-Cookie header
-				$httpProvider.defaults.withCredentials = true;
-			} ]);
-
-	sampleApp.config([ '$httpProvider', function($httpProvider) {
-		$httpProvider.defaults.xsrfCookieName = 'csrftoken';
-		$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-	} ]);
-
-	var HomeController = function($scope, $http) {
-		
-		$scope.getNamaNpk = function(npk) {
-			var actionUrl = "findnpk?npk="+npk;
-			var res3 = $http.get(actionUrl);
-			
-			res3.then(function(response) {
-				$scope.namaNpk = response.data;
-			}, function(errResponse) {
-				console.error('Error while fetching Gudang');
-			});
-			return $scope.namaNpk;
-		};
-	};
-	</script>
+	<script src="../../resources/js/lib/angular/angular.js"
+		th:src="@{/resources/js/lib/angular/angular.js}"></script>
+	<script src="../../resources/js/lib/controllers/sjController.js"
+		th:src="@{/resources/js/controllers/infoController.js}"></script>
+	
 
 </body>
 </html>
