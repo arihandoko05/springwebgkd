@@ -105,7 +105,11 @@ public class SupplyController extends AbstractController {
     			Date dtperiod = tagLpbService.openPeriodeBpb();
     			BigDecimal qtyScan = tagLpbService.getQtyMutasiTag(DTFORMAT_YYYY.format(dtperiod), DTFORMAT_MM.format(dtperiod), kdGudang, noReg);
     			if (qtyScan != null){
-    				tagLpb.setQtyAkhir(qtyScan);
+    				if(qtyScan.compareTo(BigDecimal.ZERO) == 0){
+    					tagLpb.setQtyAkhir(tagLpb.getQty());
+    				} else {
+    					tagLpb.setQtyAkhir(qtyScan);
+    				}
     			}
     		}
     	}
@@ -145,6 +149,38 @@ public class SupplyController extends AbstractController {
         }
         
     }
+    
+    @RequestMapping(value = "/upd", method = RequestMethod.POST)
+	public @ResponseBody void updateData(@RequestBody BigDecimal qtyAmbil,
+			@RequestParam(value = "noReg", required = true) String noReg,
+			@RequestParam(value = "kdGudang", required = true) String kdGudang) {
+    	WhsSupplyScan whsSupplyScan = new WhsSupplyScan();
+
+		Map<String, Object> filters = new HashMap<>();
+		filters.put("noBarcode =", noReg);
+		filters.put("kdGudang =", kdGudang);
+		filters.put("tanggalTrx =", new Date());
+    	filters.put("stInout =", "OUT");
+
+		List<WhsSupplyScan> whsSupplyScans = whsSupplyScanService.search(filters, 0);
+		if (!whsSupplyScans.isEmpty()) {
+			whsSupplyScan = whsSupplyScans.get(0);
+		}
+
+		if (whsSupplyScan != null) {
+			whsSupplyScan.setQtyBpb(qtyAmbil);
+			whsSupplyScan.setQtySupply(qtyAmbil);
+			whsSupplyScan.setModiby("web");
+			whsSupplyScan.setModidate(new Date());
+
+			whsSupplyScanService.update(whsSupplyScan);
+			
+			log("STO/updateData-GET:  whsStoScan = " + whsSupplyScan.toString());
+			String message = "STO " + whsSupplyScan.getNoBarcode() + " was successfully Updated";
+			// modelAndView.addObject("message", message);
+		}
+
+	}
 
     @RequestMapping(value = "/sedup", method = RequestMethod.GET)
     public @ResponseBody List<WhsSupplyScan> findDup(@RequestParam(value = "id", required = true) String id) {

@@ -119,5 +119,17 @@ public class WhsSupplyScanRepository extends AbstractRepository<WhsSupplyScanEnt
 			entityManager.close();
 		}
 	}
+	
+	public BigDecimal getKdTrxBefore(String noBarcode, String kdGudang){
+		try {
+			String sql = "SELECT KD_TRX FROM (SELECT KD_TRX, NO_BARCODE, QTY_SUPPLY, ST_INOUT FROM WHS_SUPPLY_SCAN WHERE NO_BARCODE = '"+noBarcode+"' "
+					+ "AND KD_GUDANG = '"+kdGudang+"' AND ST_INOUT = 'OUT' AND NO_BPB IS NULL ORDER BY TANGGAL_TRX desc) WHERE ROWNUM = 1";
+			Query query = entityManager.createNativeQuery(sql);
+			return (BigDecimal) query.getSingleResult();
+		} finally {
+			entityManager.close();
+		}
+		
+	}
 
 }

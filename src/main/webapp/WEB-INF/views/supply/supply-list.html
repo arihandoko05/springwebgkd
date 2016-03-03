@@ -130,16 +130,20 @@
 										<span>Qty Stock </span>: {{ tagLpb.qtyAkhir }} pcs
 									</p>
 								</div>
-								<div class="bio-row">
+								<div class="bio-row form-group">
 									<p>
-										<strong><span>Qty Supply </span></strong>: {{ qtySupply }}
-										pcs
+										<span>Qty Supply</span>: <input type="number" min="0"
+											class="form-control col-lg-2" id="txtQty"
+											ng-model="qtySupply" placeholder="Qty Supply" /> pcs
 									</p>
 								</div>
 								<div class="bio-row">
 									<p>
 										<span>Status </span>: OUT From WHS
 									</p>
+								</div>
+								<div class="bio-row">
+									<button type="button" class="btn btn-primary" ng-click="updateData()">Update</button>
 								</div>
 							</div>
 						</section>
@@ -153,7 +157,8 @@
 										<tr>
 											<th>No</th>
 											<th>No Barcode</th>
-											<th>Qty</th>
+											<th>Qty BPB</th>
+											<th>Qty Scan</th>
 											<th>Time</th>
 										</tr>
 									</thead>
@@ -169,6 +174,7 @@
 											<td width="5%" style="font-size: 12px;">{{$index + 1}}</td>
 											<td width="30%" style="font-size: 12px;">{{val.noBarcode}}</td>
 											<td width="10%" style="font-size: 12px;">{{val.qtyBpb}}</td>
+											<td width="10%" style="font-size: 12px;">{{val.qtySupply}}</td>
 											<td width="10%" style="font-size: 12px;"><p ng-bind="val.tanggalTrx | date:'HH:mm:ss'"></p></td>
 											
 										</tr>

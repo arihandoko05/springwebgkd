@@ -128,6 +128,24 @@ var SupplyController = function($scope, $http, $window, $timeout) {
 
 	};
 	
+	// Function to Update ScanData
+	$scope.updateData = function() {
+		var actionUrl = "supply/upd?noReg="+$scope.tagLpb.noReg+"&kdGudang="+$scope.selectedWhs.kode;
+		var resp = $http({
+			method : 'POST',
+			url : actionUrl,
+			data : $scope.qtySupply
+		});
+		resp.then(function(response) {
+			if (response != null) {
+				$scope.refreshDatalist();
+				console.info('Success post WhsSupplyScan');
+			}
+		}, function(errResponse) {
+			console.error('Error while Post WhsSupplyScan');
+		});
+	};
+	
 	$scope.loadGudang();
 
 	$scope.setMessage = function(message) {

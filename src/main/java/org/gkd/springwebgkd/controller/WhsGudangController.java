@@ -43,7 +43,7 @@ public class WhsGudangController extends AbstractController {
         		filter.put("kode =", "002");
         	}
         }
-        System.out.println(userLogin+ "site :"+ kdSite);
+        
         
         List<MwhsGudang> mwhsGudangs = mwhsGudangService.search(filter);
         if(mwhsGudangs == null){

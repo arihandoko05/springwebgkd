@@ -67,4 +67,6 @@ public interface WhsSupplyScanService {
 	List<WhsSupplyScan> search(Map<String, Object> params, int maxResult);
 	
 	BigDecimal findQtySupply(String noBarcode, String bulan, String tahun);
+	
+	BigDecimal getKdTrxBefore(String noBarcode, String kdGudang);
 }

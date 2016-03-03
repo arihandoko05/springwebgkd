@@ -128,12 +128,29 @@ public class SupplyReturController extends AbstractController {
             	whsSupplyScan.setCreatedate(new Date());
             	
             	whsSupplyScanService.create(whsSupplyScan);
+            	
+            	
             	log("Supply/saveData-GET:  whsSupplyScan = " + whsSupplyScan.toString());
                 String message = "Supply " + whsSupplyScan.getNoBarcode() + " was successfully Saved";
 //                modelAndView.addObject("message", message);
         	}
         }
         
+    }
+    
+    private void updateDataSupply(String noBarcode, String kdGudang, BigDecimal qtyBpb){
+    	BigDecimal kdTrx = whsSupplyScanService.getKdTrxBefore(noBarcode, kdGudang);
+    	
+    	if(kdTrx != null){
+    		WhsSupplyScan ent = whsSupplyScanService.findById(kdTrx);
+    		if (ent != null){
+    			ent.setQtyBpb(qtyBpb);
+    			ent.setModiby("web");
+    			ent.setModidate(new Date());
+    			
+    			whsSupplyScanService.update(ent);
+    		}
+    	}
     }
 
     @RequestMapping(value = "/upd", method = RequestMethod.POST)
@@ -155,12 +172,15 @@ public class SupplyReturController extends AbstractController {
 		}
 
 		if (whsSupplyScan != null) {
+			BigDecimal qtyBpb = qtyAmbil.subtract(qtyRetur);
 			whsSupplyScan.setQtyRetur(qtyRetur);
-			whsSupplyScan.setQtyBpb(qtyAmbil.subtract(qtyRetur));
+			whsSupplyScan.setQtyBpb(qtyBpb);
 			whsSupplyScan.setModiby("web");
 			whsSupplyScan.setModidate(new Date());
 
 			whsSupplyScanService.update(whsSupplyScan);
+			
+			updateDataSupply(noReg, kdGudang, qtyBpb);
 			log("STO/updateData-GET:  whsStoScan = " + whsSupplyScan.toString());
 			String message = "STO " + whsSupplyScan.getNoBarcode() + " was successfully Updated";
 			// modelAndView.addObject("message", message);

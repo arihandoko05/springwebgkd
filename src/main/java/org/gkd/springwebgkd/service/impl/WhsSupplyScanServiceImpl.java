@@ -137,4 +137,9 @@ public class WhsSupplyScanServiceImpl implements WhsSupplyScanService {
 		return whsSupplyScanRepository.findQtySupply(noBarcode, bulan, tahun);
 	}
 
+	@Override
+	public BigDecimal getKdTrxBefore(String noBarcode, String kdGudang) {
+		return whsSupplyScanRepository.getKdTrxBefore(noBarcode, kdGudang);
+	}
+
 }

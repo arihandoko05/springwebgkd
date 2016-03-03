@@ -62,7 +62,7 @@ public class TagLpbRepository extends AbstractRepository<TagLpbEntity, String> {
 	
 	public Date openPeriodeLpbDt() throws PersistenceException {
 		try {
-			String sql = "SELECT CLOSING_DATE FROM TCLOSING WHERE PERIODE_LPB = 'N'";
+			String sql = "SELECT * FROM (SELECT CLOSING_DATE FROM TCLOSING WHERE PERIODE_LPB = 'N' ORDER BY CLOSING_DATE DESC) WHERE ROWNUM = 1";
 			Query query = entityManager.createNativeQuery(sql);
 			return (Date) query.getSingleResult();
 		} finally {
@@ -72,7 +72,7 @@ public class TagLpbRepository extends AbstractRepository<TagLpbEntity, String> {
 	
 	public Date openPeriodeStoDt() throws PersistenceException {
 		try {
-			String sql = "SELECT CLOSING_DATE FROM TCLOSING WHERE PERIODE_STO = 'N'";
+			String sql = "SELECT * FROM (SELECT CLOSING_DATE FROM TCLOSING WHERE PERIODE_STO = 'N' ORDER BY CLOSING_DATE DESC) WHERE ROWNUM = 1";
 			Query query = entityManager.createNativeQuery(sql);
 			return (Date) query.getSingleResult();
 		} finally {
@@ -82,7 +82,7 @@ public class TagLpbRepository extends AbstractRepository<TagLpbEntity, String> {
 	
 	public Date openPeriodeBpb() throws PersistenceException {
 		try {
-			String sql = "SELECT CLOSING_DATE FROM TCLOSING WHERE PERIODE_BPB = 'N'";
+			String sql = "SELECT * FROM (SELECT CLOSING_DATE FROM TCLOSING WHERE PERIODE_BPB = 'N' ORDER BY CLOSING_DATE DESC) WHERE ROWNUM = 1";
 			Query query = entityManager.createNativeQuery(sql);
 			return (Date) query.getSingleResult();
 		} finally {
