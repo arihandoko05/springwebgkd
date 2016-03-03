@@ -8,6 +8,7 @@ package org.gkd.springwebgkd.repo;
 import java.math.BigDecimal;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -69,12 +70,14 @@ public class WhsStoScanRepository extends AbstractRepository<WhsStoScanEntity, B
 		}
 	}
 	
-	public String openPeriodeSto() throws PersistenceException {
+	public String openPeriodeSto() {
 		try {
 			String sql = "SELECT TO_CHAR(TO_DATE(LPAD(BULAN,2,'0')||LPAD(TAHUN,4,'0'), 'MMYYYY'), 'MONTH YYYY') PERIODE "
                     + "FROM TCLOSING WHERE PERIODE_STO = 'N'";
 			Query query = entityManager.createNativeQuery(sql);
 			return (String) query.getSingleResult();
+		} catch (NoResultException ex){
+			return "-";
 		} finally {
 			entityManager.close();
 		}
