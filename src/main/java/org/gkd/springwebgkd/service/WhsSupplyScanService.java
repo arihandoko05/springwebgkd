@@ -60,6 +60,8 @@ public interface WhsSupplyScanService {
 	
 	String openPeriodeLpb();
 	
+	String openPeriodeBpb();
+	
 	List<WhsSupplyScan> findListSupplyHarian(String kdGudang);
 	
 	List<WhsSupplyScan> search(Map<String, Object> params, int maxResult);

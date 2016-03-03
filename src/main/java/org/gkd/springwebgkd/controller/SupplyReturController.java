@@ -46,7 +46,7 @@ public class SupplyReturController extends AbstractController {
         log("Action 'list'");
         WhsSupplyScan whsSupplyScan = new WhsSupplyScan();
         TagLpb tagLpb = new TagLpb();
-        openPeriod = "Open Period : "+whsSupplyScanService.openPeriodeLpb();
+        openPeriod = "Open Period : "+whsSupplyScanService.openPeriodeBpb();
 //        List<WhsSupplyScan> list = whsSupplyScanService.findAll();
         ModelAndView modelAndView = new ModelAndView("supply/supply-retur");
 //        modelAndView.addObject(MAIN_LIST_NAME, list);

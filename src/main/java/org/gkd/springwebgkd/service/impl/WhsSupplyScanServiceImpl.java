@@ -106,6 +106,11 @@ public class WhsSupplyScanServiceImpl implements WhsSupplyScanService {
 	public String openPeriodeLpb() {
 		return whsSupplyScanRepository.openPeriodeLpb();
 	}
+	
+	@Override
+	public String openPeriodeBpb() {
+		return whsSupplyScanRepository.openPeriodeBpb();
+	}
 
 	@Override
 	public List<WhsSupplyScan> findListSupplyHarian(String kdGudang) {

@@ -1,5 +1,6 @@
 package org.gkd.springwebgkd.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,12 +30,21 @@ public class WhsGudangController extends AbstractController {
     private MwhsGudangService mwhsGudangService;
         
     @RequestMapping(value = "whslist.json", method = RequestMethod.GET)
-    public @ResponseBody List<MwhsGudang> findWhsAllGudang() {
+    public @ResponseBody List<MwhsGudang> findWhsAllGudang(Principal principal) {
 
         log("Supply/findBarcode-GET:  scan today");
 
         Map<String, Object> filter = new HashMap<>();
         filter.put("flagAktif =", "T");
+        String userLogin = principal.getName();
+        String kdSite = mwhsGudangService.getKodeSite(userLogin);
+        if(kdSite != null){
+        	if(kdSite .equals("GKDC")){
+        		filter.put("kode =", "002");
+        	}
+        }
+        System.out.println(userLogin+ "site :"+ kdSite);
+        
         List<MwhsGudang> mwhsGudangs = mwhsGudangService.search(filter);
         if(mwhsGudangs == null){
         	mwhsGudangs = new ArrayList<>();

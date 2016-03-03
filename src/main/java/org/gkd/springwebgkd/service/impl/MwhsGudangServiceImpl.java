@@ -103,4 +103,9 @@ public class MwhsGudangServiceImpl implements MwhsGudangService {
 		return beans;
 	}
 
+	@Override
+	public String getKodeSite(String npk) {
+		return mwhsGudangRepository.getKodeSite(npk);
+	}
+
 }

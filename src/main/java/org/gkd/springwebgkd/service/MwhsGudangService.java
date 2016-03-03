@@ -57,5 +57,5 @@ public interface MwhsGudangService {
 	
 	List<MwhsGudang> search(Map<String, Object> params);
 
-
+	String getKodeSite(String npk);
 }

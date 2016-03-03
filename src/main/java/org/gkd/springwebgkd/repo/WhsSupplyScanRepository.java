@@ -82,6 +82,16 @@ public class WhsSupplyScanRepository extends AbstractRepository<WhsSupplyScanEnt
 		}
 	}
 	
+	public String openPeriodeBpb() throws PersistenceException {
+		try {
+			String sql = "SELECT FOPEN_PERIODE_BPB1('N') FROM DUAL";
+			Query query = entityManager.createNativeQuery(sql);
+			return (String) query.getSingleResult();
+		} finally {
+			entityManager.close();
+		}
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<WhsSupplyScanEntity> findListSupplyHarian(String kdGudang) throws PersistenceException {
 		try {

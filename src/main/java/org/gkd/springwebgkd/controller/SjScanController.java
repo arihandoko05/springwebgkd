@@ -30,6 +30,7 @@ public class SjScanController extends AbstractController {
 	private static final String MAIN_ENTITY_NAME = "whsSjScanEntity";
 	private static final String TAG_ENTITY_NAME = "tagLpbEntitiy";
 	private String openPeriod;
+	private Principal principal;
 
 	public SjScanController() {
 		super(SjScanController.class, MAIN_ENTITY_NAME);
@@ -43,10 +44,11 @@ public class SjScanController extends AbstractController {
 	private WhsSjScanService whsSjScanService;
 
 	@RequestMapping(value = { "", "/", "/list" }, method = RequestMethod.GET)
-	public ModelAndView listOfSj() {
+	public ModelAndView listOfSj(Principal principal) {
 		log("Action 'list'");
 		WhsSjScan whsSjScan = new WhsSjScan();
 		TagLpb tagLpb = new TagLpb();
+		this.principal = principal;
 		openPeriod = "Open Period : " + whsSjScanService.openPeriodeBpb();
 		ModelAndView modelAndView = new ModelAndView("sj/sj-list");
 		modelAndView.addObject(MAIN_ENTITY_NAME, whsSjScan);

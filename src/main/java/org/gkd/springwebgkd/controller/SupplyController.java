@@ -1,6 +1,7 @@
 package org.gkd.springwebgkd.controller;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,7 +51,8 @@ public class SupplyController extends AbstractController {
         log("Action 'list'");
         WhsSupplyScan whsSupplyScan = new WhsSupplyScan();
         TagLpb tagLpb = new TagLpb();
-        openPeriod = "Open Period : "+whsSupplyScanService.openPeriodeLpb();
+        openPeriod = "Open Period : "+whsSupplyScanService.openPeriodeBpb();
+//        System.out.println("Login as "+princ.getName());
 //        List<WhsSupplyScan> list = whsSupplyScanService.findAll();
         ModelAndView modelAndView = new ModelAndView("supply/supply-list");
 //        modelAndView.addObject(MAIN_LIST_NAME, list);

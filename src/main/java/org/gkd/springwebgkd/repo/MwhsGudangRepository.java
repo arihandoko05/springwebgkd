@@ -6,6 +6,7 @@
 package org.gkd.springwebgkd.repo;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -52,6 +53,18 @@ public class MwhsGudangRepository extends AbstractRepository<MwhsGudangEntity, S
 		try {
 			Query query = entityManager.createNamedQuery("MwhsGudangEntity.countAll");
 			return (long) query.getSingleResult();
+		} finally {
+			entityManager.close();
+		}
+	}
+	
+	public String getKodeSite(String npk) throws PersistenceException {
+		try {
+			String sql = "SELECT KODE_SITE FROM USRHRCORP.V_MAS_KARYAWAN WHERE NPK = '"+npk+"' AND TGL_KELUAR IS NULL";
+			Query query = entityManager.createNativeQuery(sql);
+			return (String) query.getSingleResult();
+		} catch (NoResultException ex){
+			return null;
 		} finally {
 			entityManager.close();
 		}
