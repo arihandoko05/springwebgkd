@@ -121,6 +121,12 @@ public class TagLpbEntity implements Serializable {
     @Formula("(SELECT FQTY_SCAN_SUPPLY(NO_REG, KD_SITE) from dual)")
     private BigDecimal qtySupply;
     
+    @Formula("(SELECT FQTY_SCAN_SUPPLYX(NO_REG, KD_SITE) from dual)")
+    private BigDecimal qtySupplyx;
+    
+    @Formula("(SELECT FQTY_SCAN_RETURX(NO_REG, KD_SITE) from dual)")
+    private BigDecimal qtyRetur;
+    
     //----------------------------------------------------------------------
     // ENTITY LINKS ( RELATIONSHIP )
     //----------------------------------------------------------------------
@@ -340,6 +346,22 @@ public class TagLpbEntity implements Serializable {
 
 	public void setQtySupply(BigDecimal qtySupply) {
 		this.qtySupply = qtySupply;
+	}
+
+	public BigDecimal getQtySupplyx() {
+		return qtySupplyx;
+	}
+
+	public void setQtySupplyx(BigDecimal qtySupplyx) {
+		this.qtySupplyx = qtySupplyx;
+	}
+
+	public BigDecimal getQtyRetur() {
+		return qtyRetur;
+	}
+
+	public void setQtyRetur(BigDecimal qtyRetur) {
+		this.qtyRetur = qtyRetur;
 	}
 
 	//----------------------------------------------------------------------
