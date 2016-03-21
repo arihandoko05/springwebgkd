@@ -131,5 +131,19 @@ public class WhsSupplyScanRepository extends AbstractRepository<WhsSupplyScanEnt
 		}
 		
 	}
+	
+	public List findItemScan(String bulan, String tahun, String kdGudang) {
+		try {
+			String sql = "SELECT NO_BARCODE, FTAG_BARCODE(NO_BARCODE, 'KODE') KD_BRG, FNM_ITEM(FTAG_BARCODE(NO_BARCODE, 'KODE')) NM_BARANG, "
+					+ "TAHUN, BULAN, TANGGAL_TRX, TO_CHAR(TANGGAL_TRX, 'HH24:MI') JAM, "
+					+ "QTY_SUPPLY, QTY_RETUR, QTY_BPB, KD_GUDANG, FNM_GUDANG(KD_GUDANG) NM_GUDANG FROM WHS_SUPPLY_SCAN WHERE NVL(ST_APPROVE, 'F') = :ST_APPROVE "
+					+ "AND TAHUN = :tahun AND BULAN = :BULAN AND (ST_INOUT = :ST_INOUT OR :ST_INOUT IS NULL) "
+					+ "ORDER BY TANGGAL_TRX DESC, NO_BARCODE, ST_INOUT DESC";
+			Query query = entityManager.createNativeQuery(sql);
+			return query.getResultList();
+		}  finally {
+			entityManager.close();
+		}
+	}
 
 }

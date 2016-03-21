@@ -142,4 +142,9 @@ public class WhsSupplyScanServiceImpl implements WhsSupplyScanService {
 		return whsSupplyScanRepository.getKdTrxBefore(noBarcode, kdGudang);
 	}
 
+	@Override
+	public List findItemScan(String bulan, String tahun, String kdGudang) {
+		return whsSupplyScanRepository.findItemScan(bulan, tahun, kdGudang);
+	}
+
 }
